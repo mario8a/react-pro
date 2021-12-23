@@ -1,10 +1,3 @@
-import { ReactElement } from 'react';
-
-export interface ProductCardsProps {
-  product: Product;
-  children?: ReactElement | ReactElement[]
-}
-
 export interface Product {
   id: string;
   title: string;
