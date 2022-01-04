@@ -6,14 +6,15 @@ import '../styles/styles.css';
 export const RegisterPage = () => {
 
   const {
-    onChange, formData,
+    onChange, formData, resetForm, isValidEmail,
     name, email, password1, password2
   } = useForm({
-    name: '',
-    email: '',
-    password1: '',
-    password2: '',
-  });
+      name: '',
+      email: '',
+      password1: '',
+      password2: '',
+    }
+  );
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,14 +32,19 @@ export const RegisterPage = () => {
           value={name}
           name='name'
           onChange={onChange}
+          className={`${ name.trim().length <= 0 && 'has-error'}`}
         />
+        { name.trim().length <= 0 && <span>Este campo es obligatorio</span> }
         <input 
           type="email"
           placeholder="Email"
           value={email}
           name='email'
           onChange={onChange}
+          className={`${!isValidEmail(email) && 'has-error'}`}
         />
+        { !isValidEmail(email) && <span>Email invalido</span> }
+
         <input 
           type="password"
           placeholder="password"
@@ -46,6 +52,9 @@ export const RegisterPage = () => {
           name='password1'
           onChange={onChange}
         />
+        { password1.trim().length <= 0 && <span>Este campo es obligatorio</span> }
+        { password1.trim().length < 6 && password1.trim().length > 0 && <span>La contraseña debe tener 6 caracteres</span> }
+
         <input 
           type="password"
           placeholder="Repeat password"
@@ -53,7 +62,11 @@ export const RegisterPage = () => {
           name='password2'
           onChange={onChange}
         />
+        { password2.trim().length <= 0 && <span>Este campo es obligatorio</span> }
+        { password2.trim().length > 0 && password1 !== password2 && <span>Las contraseñas deben ser iguales</span> }
+
         <button type="submit">Create</button>
+        <button type='button' onClick={resetForm}>Reset</button>
       </form>      
     </div>
   )
